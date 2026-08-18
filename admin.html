@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PCA Admin Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="loginView" class="login-screen">
+  <div class="login-card">
+    <img src="assets/logo-pca.png" alt="PCA" class="login-logo">
+    <span class="eyebrow">PURBANCH CENTRAL ACADEMY</span>
+    <h1>Administrator Login</h1>
+    <p>Manage the bilingual school website from one dashboard.</p>
+    <form id="loginForm">
+      <input id="username" required autocomplete="username" placeholder="Username">
+      <input id="password" required type="password" autocomplete="current-password" placeholder="Password">
+      <button type="submit">Sign In</button>
+      <p id="loginMsg" class="error"></p>
+    </form>
+    <div class="demo"><b>Demo login</b><br>Username: <code>admin</code><br>Password: <code>admin123</code></div>
+    <a href="index.html">← Back to website</a>
+  </div>
+</div>
+
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="side-brand"><img src="assets/logo-pca.png"><div><b>PCA</b><small>ADMIN CMS</small></div></div>
+    <nav id="sideNav">
+      <button data-tab="dashboard">⌂ Dashboard</button>
+      <button data-tab="general">⚙ General</button>
+      <button data-tab="contact">📞 Contact & Location</button>
+      <button data-tab="home">🏠 Homepage</button>
+      <button data-tab="about">◎ About / Vision</button>
+      <button data-tab="leadership">🎓 Principal & Director</button>
+      <button data-tab="academics">📚 Academics</button>
+      <button data-tab="facilities">🏫 Facilities</button>
+      <button data-tab="news">📰 News & Events</button>
+      <button data-tab="gallery">🖼️ Media Gallery</button>
+      <button data-tab="admissions">📝 Admissions</button>
+    </nav>
+    <button id="logout" class="logout">↪ Log out</button>
+  </aside>
+  <main class="main">
+    <header class="dashboard-header">
+      <div><span class="eyebrow">CONTROL CENTER</span><h1 id="pageTitle">Dashboard</h1></div>
+      <div class="header-actions"><a href="index.html" target="_blank">View Website ↗</a><button id="saveBtn">Save Changes</button></div>
+    </header>
+    <div id="editor"></div>
+  </main>
+</div>
+<script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Purbanch Central Academy, Mirchaiya-6, Siraha, Nepal">
+  <title>Purbanch Central Academy | Mirchaiya, Siraha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top-strip">
+  <div class="container top-strip-inner">
+    <span data-i18n="established">Established in 2069 BS</span>
+    <span>📍 <span data-i18n="addressShort">Mirchaiya-6, Siraha, Nepal</span></span>
+    <span>📞 <span id="topPhone">+977-9801977115, 9841469538</span></span>
+  </div>
+</div>
+
+<header class="header" id="header">
+  <div class="container nav-wrap">
+    <a href="#home" class="brand">
+      <img id="siteLogo" src="assets/logo-pca.png" alt="Purbanch Central Academy logo">
+      <span class="brand-text">
+        <strong id="schoolName">Purbanch Central Academy</strong>
+        <small id="schoolTagline">Educate • Empower • Excel</small>
+      </span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+    <nav id="mainNav">
+      <a href="#home" data-i18n="navHome">Home</a>
+      <a href="#about" data-i18n="navAbout">About</a>
+      <a href="#academics" data-i18n="navAcademics">Academics</a>
+      <a href="#leadership" data-i18n="navLeadership">Leadership</a>
+      <a href="#facilities" data-i18n="navFacilities">Facilities</a>
+      <a href="#news" data-i18n="navNews">News & Events</a>
+      <a href="#gallery" data-i18n="navGallery">Gallery</a>
+      <a href="#contact" data-i18n="navContact">Contact</a>
+      <a class="admin-nav" href="admin.html" data-i18n="navAdmin">Admin</a>
+      <div class="lang-switch">
+        <button data-lang="en" class="active">EN</button>
+        <button data-lang="ne">नेपाली</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <img id="heroBanner" class="hero-banner" src="assets/top-banner.jpeg" alt="Purbanch Central Academy banner">
+  <div class="hero-shade"></div>
+  <div class="container hero-content">
+    <div class="hero-copy">
+      <span class="kicker" data-i18n="heroKicker">LEARN • LEAD • SUCCEED</span>
+      <h1 id="heroTitle">Inspiring Young Minds for a Brighter Future</h1>
+      <p id="heroText">A progressive learning community committed to academic excellence, character, creativity and lifelong learning.</p>
+      <div class="hero-buttons">
+        <a href="#about" class="btn gold" data-i18n="discover">Discover Our School</a>
+        <a href="#admission" class="btn outline" data-i18n="admissionBtn">Admission Enquiry</a>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <img src="assets/logo-pca.png" id="heroLogo" alt="PCA">
+      <div><strong id="heroBadgeYear">2069 BS</strong><span data-i18n="heroBadge">A trusted learning community</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="quick-info">
+  <div class="container quick-grid">
+    <div><span>🎓</span><div><b data-i18n="qi1Title">Quality Education</b><small data-i18n="qi1Text">Strong academic foundations</small></div></div>
+    <div><span>🌱</span><div><b data-i18n="qi2Title">Holistic Growth</b><small data-i18n="qi2Text">Skills, values and confidence</small></div></div>
+    <div><span>💡</span><div><b data-i18n="qi3Title">Future Ready</b><small data-i18n="qi3Text">Innovation and digital learning</small></div></div>
+    <div><span>🤝</span><div><b data-i18n="qi4Title">Caring Community</b><small data-i18n="qi4Text">School, family and community</small></div></div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="container two-col">
+    <div>
+      <span class="section-kicker" data-i18n="aboutKicker">ABOUT OUR SCHOOL</span>
+      <h2 id="aboutTitle">A school where every learner matters.</h2>
+      <p id="aboutText">Purbanch Central Academy is committed to creating a safe, disciplined and inspiring environment where students develop knowledge, confidence, practical skills and strong values.</p>
+      <div class="check-list">
+        <div><span>✓</span><p><b data-i18n="aboutPoint1Title">Student-centered learning</b><br><small data-i18n="aboutPoint1Text">Active participation, curiosity and individual attention.</small></p></div>
+        <div><span>✓</span><p><b data-i18n="aboutPoint2Title">Character & leadership</b><br><small data-i18n="aboutPoint2Text">Responsibility, teamwork, integrity and leadership.</small></p></div>
+        <div><span>✓</span><p><b data-i18n="aboutPoint3Title">Modern learning culture</b><br><small data-i18n="aboutPoint3Text">Technology, creativity and continuous improvement.</small></p></div>
+      </div>
+    </div>
+    <div class="vision-card">
+      <div class="seal">PCA</div>
+      <span class="mini-kicker" data-i18n="visionLabel">OUR VISION</span>
+      <h3 id="visionTitle">Nurturing capable and confident learners.</h3>
+      <p id="visionText">To nurture capable, ethical and confident learners who contribute positively to society.</p>
+      <hr>
+      <span class="mini-kicker" data-i18n="missionLabel">OUR MISSION</span>
+      <h3 id="missionTitle">Quality education with care and purpose.</h3>
+      <p id="missionText">To provide quality education through caring teachers, modern learning practices and a culture of continuous improvement.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section light" id="academics">
+  <div class="container">
+    <div class="section-head center">
+      <span class="section-kicker" data-i18n="academicKicker">ACADEMICS</span>
+      <h2 data-i18n="academicHeading">Learning for the real world</h2>
+      <p data-i18n="academicSub">Strong foundations, practical skills and opportunities to explore.</p>
+    </div>
+    <div class="card-grid" id="academicGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="leadership">
+  <div class="container">
+    <div class="section-head center">
+      <span class="section-kicker" data-i18n="leadershipKicker">LEADERSHIP MESSAGE</span>
+      <h2 data-i18n="leadershipHeading">Guidance from our leaders</h2>
+      <p data-i18n="leadershipSub">Education grows stronger when vision, care and action move together.</p>
+    </div>
+    <div class="leader-grid">
+      <article class="leader-card">
+        <div class="leader-photo" id="principalPhotoBox"><img id="principalPhoto" alt="Principal"><span id="principalInitial">P</span></div>
+        <div class="leader-content">
+          <span class="role" data-i18n="principalRole">MESSAGE FROM THE PRINCIPAL</span>
+          <h3 id="principalName">Principal</h3>
+          <p id="principalMessage">It is our privilege to nurture every learner through quality education, strong values and a supportive school community. We encourage our students to remain curious, disciplined, compassionate and confident as they prepare for the future.</p>
+        </div>
+      </article>
+      <article class="leader-card">
+        <div class="leader-photo" id="directorPhotoBox"><img id="directorPhoto" alt="Director"><span id="directorInitial">D</span></div>
+        <div class="leader-content">
+          <span class="role" data-i18n="directorRole">MESSAGE FROM THE DIRECTOR</span>
+          <h3 id="directorName">Director</h3>
+          <p id="directorMessage">Our commitment is to create an institution where students, teachers and parents work together. With innovation, integrity and continuous improvement, we aim to help every child discover potential and achieve meaningful success.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section light" id="facilities">
+  <div class="container">
+    <div class="section-head center">
+      <span class="section-kicker" data-i18n="facilityKicker">CAMPUS LIFE</span>
+      <h2 data-i18n="facilityHeading">Built for learning and growth</h2>
+    </div>
+    <div class="card-grid" id="facilityGrid"></div>
+  </div>
+</section>
+
+<section class="section light gallery-section" id="gallery">
+  <div class="container">
+    <div class="section-head row">
+      <div><span class="section-kicker" data-i18n="galleryKicker">MEDIA GALLERY</span><h2 data-i18n="galleryHeading">School Gallery</h2><p data-i18n="gallerySub">Photos, videos and memorable moments from Purbanch Central Academy.</p></div>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+    <div class="empty-gallery" id="galleryEmpty" hidden data-i18n="galleryEmpty">Gallery media will appear here when the administrator uploads photos or videos.</div>
+  </div>
+</section>
+
+<section class="section news-section" id="news">
+  <div class="container">
+    <div class="section-head row">
+      <div><span class="section-kicker" data-i18n="newsKicker">LATEST UPDATES</span><h2 data-i18n="newsHeading">News & Events</h2></div>
+    </div>
+    <div class="news-grid" id="newsGrid"></div>
+  </div>
+</section>
+
+<section class="section admission-section" id="admission">
+  <div class="container admission-grid">
+    <div>
+      <span class="section-kicker" data-i18n="admissionKicker">ADMISSIONS</span>
+      <h2 data-i18n="admissionHeading">Give your child a strong start.</h2>
+      <p data-i18n="admissionText">Send an admission enquiry and our school team can contact you with the latest information.</p>
+      <div class="admission-points">
+        <span>✓ <b data-i18n="admissionPoint1">Supportive learning environment</b></span>
+        <span>✓ <b data-i18n="admissionPoint2">Academic and co-curricular development</b></span>
+        <span>✓ <b data-i18n="admissionPoint3">Caring teachers and leadership</b></span>
+      </div>
+    </div>
+    <form class="admission-form" id="admissionForm">
+      <h3 data-i18n="formHeading">Admission Enquiry</h3>
+      <div class="form-row"><input name="student" required data-ph-en="Student name" data-ph-ne="विद्यार्थीको नाम" placeholder="Student name"><input name="grade" required data-ph-en="Class / Grade" data-ph-ne="कक्षा" placeholder="Class / Grade"></div>
+      <div class="form-row"><input name="parent" required data-ph-en="Parent / Guardian" data-ph-ne="अभिभावक" placeholder="Parent / Guardian"><input name="phone" required data-ph-en="Phone number" data-ph-ne="फोन नम्बर" placeholder="Phone number"></div>
+      <input name="email" type="email" data-ph-en="Email address" data-ph-ne="इमेल ठेगाना" placeholder="Email address">
+      <textarea name="message" data-ph-en="Message" data-ph-ne="सन्देश" placeholder="Message"></textarea>
+      <button class="btn navy" type="submit" data-i18n="submitEnquiry">Submit Enquiry</button>
+      <p class="form-message" id="admissionMsg"></p>
+    </form>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="container contact-grid">
+    <div>
+      <span class="section-kicker" data-i18n="contactKicker">CONTACT</span>
+      <h2 data-i18n="contactHeading">We'd love to hear from you.</h2>
+      <p data-i18n="contactText">For admissions, school information or general enquiries, please contact Purbanch Central Academy.</p>
+      <div class="contact-list">
+        <div><b>📍 <span data-i18n="addressLabel">Address</span></b><span id="contactAddress">Mirchaiya-6, Siraha, Nepal</span></div>
+        <div><b>📞 <span data-i18n="phoneLabel">Phone</span></b><span id="contactPhone">+977-9801977115, 9841469538</span></div>
+        <div><b>✉ <span data-i18n="emailLabel">Email</span></b><span id="contactEmail">info@purbanchcentralacademy.edu.np</span></div>
+      </div>
+    </div>
+    <div class="map-card">
+      <div class="map-pin">📍</div>
+      <h3>Purbanch Central Academy</h3>
+      <p>Mirchaiya-6, Siraha, Nepal</p>
+      <a id="mapLink" target="_blank" rel="noopener" class="btn outline-dark" href="https://www.google.com/maps/search/?api=1&query=Mirchaiya-6%2C+Siraha%2C+Nepal" data-i18n="openMap">Open Location</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container footer-top">
+    <div class="footer-brand"><img src="assets/logo-pca.png" id="footerLogo" alt="PCA"><div><strong id="footerName">Purbanch Central Academy</strong><small id="footerAddress">Mirchaiya-6, Siraha, Nepal</small></div></div>
+    <div><span data-i18n="footerTagline">Educate • Empower • Excel</span></div>
+  </div>
+  <div class="container footer-bottom"><span>© <span id="year"></span> Purbanch Central Academy. <span data-i18n="rights">All rights reserved.</span></span><a href="admin.html" data-i18n="adminAccess">Administrator Access</a></div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
