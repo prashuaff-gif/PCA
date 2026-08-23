@@ -70,7 +70,14 @@ function cloneDefaults(){
 function load(){
   try{
     const saved=JSON.parse(localStorage.getItem(KEY)||"null");
-    return saved ? Object.assign(cloneDefaults(),saved) : cloneDefaults();
+    const out=saved ? Object.assign(cloneDefaults(),saved) : cloneDefaults();
+    if(!Array.isArray(out.gallery)) out.gallery=[];
+    if(out.gallery.length===0){
+      for(const legacyKey of ["pca_gallery_v1","pca_media_gallery_v1","pca_gallery"]){
+        try{const legacy=JSON.parse(localStorage.getItem(legacyKey)||"null"); if(Array.isArray(legacy)&&legacy.length){out.gallery=legacy;break;}}catch(e){}
+      }
+    }
+    return out;
   }catch(e){
     return cloneDefaults();
   }
@@ -180,7 +187,7 @@ function arrayItem(key,x,i){
 
 function galleryPanel(){
   const items=Array.isArray(data.gallery)?data.gallery:[];
-  let html='<div class="panel gallery-admin"><div class="panel-title-row"><div><h2>🖼️ Media Gallery</h2><p>Upload school photos and short videos, or add media by URL. Titles and captions support English and Nepali.</p></div><span class="save-badge">MEDIA CMS</span></div>'+
+  let html='<div class="panel gallery-admin"><div class="panel-title-row"><div><h2>🖼️ Media Gallery Manager</h2><p>This is the live Gallery CMS. Add, edit, reorder, and delete photos/videos here. Click <b>Save Gallery Changes</b> after editing.</p></div><span class="save-badge">CONNECTED TO WEBSITE</span></div>'+ 
     '<div class="gallery-upload-box"><div class="fields">'+
     '<div class="field"><label>Media File (photo/video)</label><input id="galleryFile" type="file" accept="image/*,video/*"></div>'+ 
     '<div class="field"><label>Or Media URL</label><input id="galleryUrl" placeholder="https://example.com/photo.jpg or video.mp4"></div>'+ 
@@ -188,22 +195,56 @@ function galleryPanel(){
     '<div class="field"><label>Title — English</label><input id="galleryTitleEn" placeholder="Annual Sports Day"></div>'+ 
     '<div class="field"><label>शीर्षक — नेपाली</label><input id="galleryTitleNe" placeholder="वार्षिक खेलकुद दिवस"></div>'+ 
     '<div class="field full"><label>Caption — English</label><textarea id="galleryCaptionEn" placeholder="Write a short description..."></textarea><label class="ne-label">क्याप्सन — नेपाली</label><textarea id="galleryCaptionNe" placeholder="छोटो विवरण लेख्नुहोस्..."></textarea></div>'+ 
-    '</div><div class="contact-actions"><button class="add" id="addGalleryBtn">+ Add to Gallery</button><button class="secondary-btn" id="clearGalleryForm" type="button">Clear</button></div><p class="gallery-help">For browser storage, keep uploaded videos reasonably small (recommended under 4 MB each). External video/image URLs can be used for larger media.</p><div id="gallerySaveMsg" class="save-message"></div></div>';
+    '</div><div class="contact-actions"><button class="add" id="addGalleryBtn" type="button">+ Add to Gallery</button><button class="secondary-btn" id="clearGalleryForm" type="button">Clear</button><button class="add" id="saveGalleryBtn" type="button">💾 Save Gallery Changes</button></div><p class="gallery-help">Uploaded images are limited to 2 MB and videos to 4 MB for browser storage. Use a media URL for larger files.</p><div id="gallerySaveMsg" class="save-message"></div></div>';
   if(!items.length) html+='<div class="empty">No gallery media yet. Add your first photo or video above.</div>';
-  else html+='<div class="gallery-admin-list">'+items.map((x,i)=>{const media=x.type==="video"?'<video controls preload="metadata" src="'+esc(x.src)+'"></video>':'<img src="'+esc(x.src)+'" alt="">';return '<article class="gallery-admin-item"><div class="gallery-admin-preview">'+media+'</div><div class="gallery-admin-meta"><div class="field"><label>Title — English</label><input data-gallery-field="title" data-gallery-lang="en" data-gallery-index="'+i+'" value="'+esc((x.title&&x.title.en)||'')+'"></div><div class="field"><label>शीर्षक — नेपाली</label><input data-gallery-field="title" data-gallery-lang="ne" data-gallery-index="'+i+'" value="'+esc((x.title&&x.title.ne)||'')+'"></div><div class="field full"><label>Caption — English</label><textarea data-gallery-field="caption" data-gallery-lang="en" data-gallery-index="'+i+'">'+esc((x.caption&&x.caption.en)||'')+'</textarea><label class="ne-label">क्याप्सन — नेपाली</label><textarea data-gallery-field="caption" data-gallery-lang="ne" data-gallery-index="'+i+'">'+esc((x.caption&&x.caption.ne)||'')+'</textarea></div><div class="gallery-admin-actions"><span class="gallery-file-type">'+(x.type==='video'?'VIDEO':'PHOTO')+'</span><button class="remove" data-gallery-remove="'+i+'">Delete Media</button></div></div></article>'}).join('')+'</div>';
+  else html+='<div class="gallery-admin-list">'+items.map((x,i)=>{
+    const media=x.type==="video"?'<video controls preload="metadata" src="'+esc(x.src)+'"></video>':'<img src="'+esc(x.src)+'" alt="">';
+    return '<article class="gallery-admin-item"><div class="gallery-admin-preview">'+media+'</div><div class="gallery-admin-meta">'+
+      '<div class="field"><label>Title — English</label><input data-gallery-field="title" data-gallery-lang="en" data-gallery-index="'+i+'" value="'+esc((x.title&&x.title.en)||'')+'"></div>'+ 
+      '<div class="field"><label>शीर्षक — नेपाली</label><input data-gallery-field="title" data-gallery-lang="ne" data-gallery-index="'+i+'" value="'+esc((x.title&&x.title.ne)||'')+'"></div>'+ 
+      '<div class="field full"><label>Caption — English</label><textarea data-gallery-field="caption" data-gallery-lang="en" data-gallery-index="'+i+'">'+esc((x.caption&&x.caption.en)||'')+'</textarea><label class="ne-label">क्याप्सन — नेपाली</label><textarea data-gallery-field="caption" data-gallery-lang="ne" data-gallery-index="'+i+'">'+esc((x.caption&&x.caption.ne)||'')+'</textarea></div>'+ 
+      '<div class="gallery-admin-actions"><span class="gallery-file-type">'+(x.type==='video'?'VIDEO':'PHOTO')+'</span><button class="remove" type="button" data-gallery-remove="'+i+'">Delete Media</button></div></div></article>';
+  }).join('')+'</div>';
   return html+'</div>';
 }
 
 function bindGallery(){
-  document.querySelectorAll('[data-gallery-field]').forEach(el=>el.oninput=()=>{const i=Number(el.dataset.galleryIndex),field=el.dataset.galleryField,lang=el.dataset.galleryLang;if(!data.gallery[i][field]||typeof data.gallery[i][field]!=='object')data.gallery[i][field]={en:'',ne:''};data.gallery[i][field][lang]=el.value;save();localStorage.setItem(KEY+'_updated',String(Date.now()));});
-  document.querySelectorAll('[data-gallery-remove]').forEach(btn=>btn.onclick=()=>{if(!confirm('Delete this media from the gallery?'))return;data.gallery.splice(Number(btn.dataset.galleryRemove),1);save();localStorage.setItem(KEY+'_updated',String(Date.now()));render();});
-  const clear=document.getElementById('clearGalleryForm'); if(clear) clear.onclick=()=>{['galleryFile','galleryUrl','galleryTitleEn','galleryTitleNe','galleryCaptionEn','galleryCaptionNe'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});};
-  const add=document.getElementById('addGalleryBtn'); if(add) add.onclick=()=>{
+  document.querySelectorAll('[data-gallery-field]').forEach(el=>el.oninput=()=>{
+    const i=Number(el.dataset.galleryIndex),field=el.dataset.galleryField,lang=el.dataset.galleryLang;
+    if(!data.gallery[i][field]||typeof data.gallery[i][field]!=='object')data.gallery[i][field]={en:'',ne:''};
+    data.gallery[i][field][lang]=el.value;
+  });
+  document.querySelectorAll('[data-gallery-remove]').forEach(btn=>btn.onclick=()=>{
+    if(!confirm('Delete this media from the Gallery?'))return;
+    data.gallery.splice(Number(btn.dataset.galleryRemove),1);
+    save(); localStorage.setItem(KEY+'_updated',String(Date.now())); render();
+  });
+  const clear=document.getElementById('clearGalleryForm');
+  if(clear) clear.onclick=()=>['galleryFile','galleryUrl','galleryTitleEn','galleryTitleNe','galleryCaptionEn','galleryCaptionNe'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const add=document.getElementById('addGalleryBtn');
+  if(add) add.onclick=()=>{
     const file=document.getElementById('galleryFile').files[0], url=document.getElementById('galleryUrl').value.trim(), type=document.getElementById('galleryType').value;
-    const title={en:document.getElementById('galleryTitleEn').value.trim(),ne:document.getElementById('galleryTitleNe').value.trim()}, caption={en:document.getElementById('galleryCaptionEn').value.trim(),ne:document.getElementById('galleryCaptionNe').value.trim()};
+    const title={en:document.getElementById('galleryTitleEn').value.trim(),ne:document.getElementById('galleryTitleNe').value.trim()};
+    const caption={en:document.getElementById('galleryCaptionEn').value.trim(),ne:document.getElementById('galleryCaptionNe').value.trim()};
     if(!file && !url){alert('Choose a media file or enter a media URL.');return;}
-    const finish=src=>{data.gallery.push({id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),type:file?(file.type.startsWith('video/')?'video':'image'):type,src,title,caption,createdAt:new Date().toISOString()});if(save()){localStorage.setItem(KEY+'_updated',String(Date.now()));render();}else{data.gallery.pop();}};
-    if(file){const max=file.type.startsWith('video/')?4*1024*1024:2*1024*1024;if(file.size>max){alert(file.type.startsWith('video/')?'Please choose a video under 4 MB, or use a video URL for larger videos.':'Please choose an image under 2 MB.');return;}const reader=new FileReader();reader.onload=()=>finish(reader.result);reader.readAsDataURL(file);}else finish(url);
+    const finish=src=>{
+      const mediaType=file?(file.type.startsWith('video/')?'video':'image'):type;
+      data.gallery.push({id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),type:mediaType,src,title,caption,createdAt:new Date().toISOString()});
+      if(save()){localStorage.setItem(KEY+'_updated',String(Date.now()));render();}
+    };
+    if(file){
+      const max=file.type.startsWith('video/')?4*1024*1024:2*1024*1024;
+      if(file.size>max){alert(file.type.startsWith('video/')?'Please choose a video under 4 MB, or use a video URL.':'Please choose an image under 2 MB.');return;}
+      const reader=new FileReader(); reader.onload=()=>finish(reader.result); reader.readAsDataURL(file);
+    }else finish(url);
+  };
+  const saveGallery=document.getElementById('saveGalleryBtn');
+  if(saveGallery) saveGallery.onclick=()=>{
+    if(save()){
+      localStorage.setItem(KEY+'_updated',String(Date.now()));
+      const msg=document.getElementById('gallerySaveMsg');
+      if(msg){msg.textContent='Gallery changes saved successfully and connected to the public website.';msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),3000);}
+    }
   };
 }
 
@@ -230,10 +271,79 @@ function admissions(){
     '</p><small>'+new Date(x.date).toLocaleString()+'</small></article>').join("")+'</div>';
 }
 
+
+const AUTH_KEY="pca_admin_auth_v3";
+const LEGACY_KEY="pca_admin_auth_v2";
+
+async function hashPassword(value){
+  const bytes=new TextEncoder().encode(value);
+  const digest=await crypto.subtle.digest("SHA-256",bytes);
+  return Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+function auth(){try{return JSON.parse(localStorage.getItem(AUTH_KEY)||"null")}catch(e){return null}}
+function hasAdmin(){return !!auth()}
+
+function securityPanel(){
+  return '<div class="panel security-panel"><div class="panel-title-row"><div><h2>🔐 Admin Security & Password Reset</h2><p>Change the administrator username/password. Passwords and recovery phrases are never displayed in plain text.</p></div><span class="save-badge">PRIVATE</span></div>'+ 
+  '<div class="fields"><div class="field"><label>Current Admin Username</label><input id="secCurrentUser" autocomplete="username"></div>'+ 
+  '<div class="field"><label>Current Password</label><input id="secCurrentPass" type="password" autocomplete="current-password" placeholder="Enter current password"></div>'+ 
+  '<div class="field"><label>New Admin Username</label><input id="secNewUser" autocomplete="username" placeholder="New username"></div>'+ 
+  '<div class="field"><label>New Password</label><input id="secNewPass" type="password" autocomplete="new-password" placeholder="Minimum 8 characters"></div>'+ 
+  '<div class="field"><label>Confirm New Password</label><input id="secConfirmPass" type="password" autocomplete="new-password" placeholder="Re-enter new password"></div>'+ 
+  '<div class="field"><label>New Recovery Phrase / Code</label><input id="secRecovery" type="password" autocomplete="off" placeholder="Optional: update recovery phrase"></div></div>'+ 
+  '<div class="contact-actions"><button class="add" id="saveSecurityBtn">Update Admin Login</button></div>'+ 
+  '<div id="securityMsg" class="save-message"></div><p class="security-note">Forgot-password recovery uses your private recovery phrase. There is no public demo password.</p></div>';
+}
+function bindSecurity(){
+ const saveBtn=document.getElementById("saveSecurityBtn");
+ if(saveBtn) saveBtn.onclick=async()=>{
+   const a=auth(), cu=document.getElementById("secCurrentUser").value.trim(), cp=document.getElementById("secCurrentPass").value, nu=document.getElementById("secNewUser").value.trim(), np=document.getElementById("secNewPass").value, conf=document.getElementById("secConfirmPass").value, recovery=document.getElementById("secRecovery").value, msg=document.getElementById("securityMsg");
+   if(!a || cu!==a.username || await hashPassword(cp)!==a.passwordHash){msg.textContent="Current login is incorrect.";msg.classList.add("show");return;}
+   if(!nu){msg.textContent="Enter a new username.";msg.classList.add("show");return;}
+   if(np && np.length<8){msg.textContent="New password must contain at least 8 characters.";msg.classList.add("show");return;}
+   if(np!==conf){msg.textContent="New passwords do not match.";msg.classList.add("show");return;}
+   const next={username:nu,passwordHash:np?await hashPassword(np):a.passwordHash,recoveryHash:recovery?await hashPassword(recovery):a.recoveryHash};
+   if(!next.recoveryHash){msg.textContent="A recovery phrase/code is required.";msg.classList.add("show");return;}
+   localStorage.setItem(AUTH_KEY,JSON.stringify(next));
+   msg.textContent="Admin security settings updated successfully.";msg.classList.add("show");
+   ["secCurrentPass","secNewPass","secConfirmPass","secRecovery"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""});
+ };
+}
+
+function showLoginState(){
+ const authExists=hasAdmin();
+ document.getElementById("loginBox").classList.toggle("hidden",!authExists);
+ document.getElementById("setupBox").classList.toggle("hidden",authExists);
+ document.getElementById("forgotBox").classList.add("hidden");
+}
+
+async function createFirstAdmin(){
+ const u=document.getElementById("setupUser").value.trim(), p=document.getElementById("setupPass").value, c=document.getElementById("setupConfirm").value, r=document.getElementById("setupRecovery").value, msg=document.getElementById("setupMsg");
+ if(u.length<3){msg.textContent="Username must contain at least 3 characters.";return;}
+ if(p.length<8){msg.textContent="Password must contain at least 8 characters.";return;}
+ if(p!==c){msg.textContent="Passwords do not match.";return;}
+ if(r.length<8){msg.textContent="Recovery phrase/code must contain at least 8 characters.";return;}
+ localStorage.setItem(AUTH_KEY,JSON.stringify({username:u,passwordHash:await hashPassword(p),recoveryHash:await hashPassword(r)}));
+ msg.textContent="Administrator created. You can now sign in.";msg.classList.add("show");
+ ["setupPass","setupConfirm","setupRecovery"].forEach(id=>document.getElementById(id).value="");
+ showLoginState();
+}
+
+async function resetWithRecovery(){
+ const a=auth(), u=document.getElementById("forgotUser").value.trim(), r=document.getElementById("forgotRecovery").value, np=document.getElementById("forgotNew").value, c=document.getElementById("forgotConfirm").value, msg=document.getElementById("forgotMsg");
+ if(!a || u!==a.username || !a.recoveryHash || await hashPassword(r)!==a.recoveryHash){msg.textContent="Username or recovery phrase is incorrect.";return;}
+ if(np.length<8){msg.textContent="New password must contain at least 8 characters.";return;}
+ if(np!==c){msg.textContent="New passwords do not match.";return;}
+ localStorage.setItem(AUTH_KEY,JSON.stringify({username:a.username,passwordHash:await hashPassword(np),recoveryHash:a.recoveryHash}));
+ msg.textContent="Password reset successfully. You can now sign in.";msg.classList.add("show");
+ ["forgotRecovery","forgotNew","forgotConfirm"].forEach(id=>document.getElementById(id).value="");
+ setTimeout(showLoginState,700);
+}
+
 function render(){
   document.querySelectorAll("#sideNav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
   const titles={dashboard:"Dashboard",general:"General Settings",contact:"Contact & Location",home:"Homepage",about:"About / Vision / Mission",
-    leadership:"Principal & Director",academics:"Academic Programs",facilities:"Facilities",news:"News & Events",gallery:"Media Gallery",admissions:"Admission Enquiries"};
+    leadership:"Principal & Director",security:"Admin Security",academics:"Academic Programs",facilities:"Facilities",news:"News & Events",gallery:"Media Gallery",admissions:"Admission Enquiries"};
   document.getElementById("pageTitle").textContent=titles[tab]||"Dashboard";
   const ed=document.getElementById("editor");
   if(tab==="dashboard")ed.innerHTML=dashboard();
@@ -242,10 +352,12 @@ function render(){
   else if(tab==="facilities")ed.innerHTML=arrayPanel("facilities","Facilities & Campus Life");
   else if(tab==="news")ed.innerHTML=arrayPanel("news","News & Events");
   else if(tab==="gallery")ed.innerHTML=galleryPanel();
+  else if(tab==="security")ed.innerHTML=securityPanel();
   else if(tab==="admissions")ed.innerHTML=admissions();
   bind();
   if(tab==="contact") bindContact();
   if(tab==="gallery") bindGallery();
+  if(tab==="security") bindSecurity();
 }
 
 function bind(){
@@ -295,28 +407,43 @@ function bind(){
 document.addEventListener("DOMContentLoaded",()=>{
   data=load();
 
+  // Migrate away from the old demo/default authentication. If the old package
+  // still contains the built-in demo account, remove it and force first-run setup.
+  try{
+    const legacy=JSON.parse(localStorage.getItem(LEGACY_KEY)||"null");
+    if(legacy && !localStorage.getItem(AUTH_KEY)){ localStorage.removeItem(LEGACY_KEY); }
+  }catch(e){}
+
   const loginView=document.getElementById("loginView");
   const appView=document.getElementById("appView");
+  showLoginState();
 
-  if(sessionStorage.getItem("pca_admin_session")==="1"){
+  if(sessionStorage.getItem("pca_admin_session")==="1" && hasAdmin()){
     loginView.classList.add("hidden");
     appView.classList.remove("hidden");
     render();
   }
 
-  document.getElementById("loginForm").addEventListener("submit",e=>{
+  document.getElementById("setupForm").addEventListener("submit",async e=>{e.preventDefault();await createFirstAdmin();});
+  document.getElementById("forgotBtn").addEventListener("click",()=>{document.getElementById("loginBox").classList.add("hidden");document.getElementById("forgotBox").classList.remove("hidden");});
+  document.getElementById("backLoginBtn").addEventListener("click",showLoginState);
+  document.getElementById("forgotForm").addEventListener("submit",async e=>{e.preventDefault();await resetWithRecovery();});
+
+  document.getElementById("loginForm").addEventListener("submit",async e=>{
     e.preventDefault();
     const u=document.getElementById("username").value.trim();
     const p=document.getElementById("password").value;
     const msg=document.getElementById("loginMsg");
-    if(u==="admin" && p==="admin123"){
+    const a=auth();
+    if(a && u===a.username && await hashPassword(p)===a.passwordHash){
       sessionStorage.setItem("pca_admin_session","1");
       loginView.classList.add("hidden");
       appView.classList.remove("hidden");
       msg.textContent="";
+      document.getElementById("password").value="";
       render();
     }else{
-      msg.textContent="Invalid username or password. Use admin / admin123.";
+      msg.textContent="Invalid username or password.";
     }
   });
 

@@ -14,13 +14,41 @@
     <span class="eyebrow">PURBANCH CENTRAL ACADEMY</span>
     <h1>Administrator Login</h1>
     <p>Manage the bilingual school website from one dashboard.</p>
-    <form id="loginForm">
-      <input id="username" required autocomplete="username" placeholder="Username">
-      <input id="password" required type="password" autocomplete="current-password" placeholder="Password">
-      <button type="submit">Sign In</button>
-      <p id="loginMsg" class="error"></p>
-    </form>
-    <div class="demo"><b>Demo login</b><br>Username: <code>admin</code><br>Password: <code>admin123</code></div>
+    <div id="loginBox">
+      <form id="loginForm">
+        <input id="username" required autocomplete="username" placeholder="Username">
+        <input id="password" required type="password" autocomplete="current-password" placeholder="Password">
+        <button type="submit">Sign In</button>
+        <p id="loginMsg" class="error"></p>
+      </form>
+      <button id="forgotBtn" class="text-button" type="button">Forgot password?</button>
+    </div>
+    <div id="setupBox" class="hidden">
+      <h2>Create Administrator</h2>
+      <p>For security, this installation has no demo username or password. Create your private administrator account.</p>
+      <form id="setupForm">
+        <input id="setupUser" required autocomplete="username" placeholder="Create username">
+        <input id="setupPass" required type="password" autocomplete="new-password" placeholder="Create password (8+ characters)">
+        <input id="setupConfirm" required type="password" autocomplete="new-password" placeholder="Confirm password">
+        <input id="setupRecovery" required type="password" autocomplete="off" placeholder="Recovery phrase/code">
+        <button type="submit">Create Secure Admin</button>
+        <p class="security-hint">Keep the recovery phrase private. It is required if you forget the password.</p>
+        <p id="setupMsg" class="error"></p>
+      </form>
+    </div>
+    <div id="forgotBox" class="hidden">
+      <h2>Reset Password</h2>
+      <p>Enter your admin username and private recovery phrase. Your old password will not be displayed.</p>
+      <form id="forgotForm">
+        <input id="forgotUser" required autocomplete="username" placeholder="Admin username">
+        <input id="forgotRecovery" required type="password" autocomplete="off" placeholder="Recovery phrase/code">
+        <input id="forgotNew" required type="password" autocomplete="new-password" placeholder="New password (8+ characters)">
+        <input id="forgotConfirm" required type="password" autocomplete="new-password" placeholder="Confirm new password">
+        <button type="submit">Reset Password</button>
+        <p id="forgotMsg" class="error"></p>
+      </form>
+      <button id="backLoginBtn" class="text-button" type="button">← Back to login</button>
+    </div>
     <a href="index.html">← Back to website</a>
   </div>
 </div>
@@ -39,6 +67,7 @@
       <button data-tab="facilities">🏫 Facilities</button>
       <button data-tab="news">📰 News & Events</button>
       <button data-tab="gallery">🖼️ Media Gallery</button>
+      <button data-tab="security">🔐 Admin Security</button>
       <button data-tab="admissions">📝 Admissions</button>
     </nav>
     <button id="logout" class="logout">↪ Log out</button>

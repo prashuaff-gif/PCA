@@ -30,9 +30,8 @@ The admin dashboard provides separate English and Nepali fields for the editable
 ## Admin dashboard
 Open `admin.html`.
 
-Demo login:
-- Username: `admin`
-- Password: `admin123`
+### First-time secure setup
+There is **no demo username or password** in this package. On the first opening of `admin.html`, create your private administrator username, password, and recovery phrase/code. These values are never printed on the public website or login screen.
 
 The dashboard can edit:
 - School name, tagline and address
@@ -86,3 +85,12 @@ Use Admin → Contact & Location. The dedicated **Save Contact Details** button 
 - Edit English/Nepali titles and captions and delete media from the dashboard.
 - Uploaded media is stored in browser localStorage as data URLs; keep local videos under about 4 MB and images under about 2 MB.
 - This is a browser-only CMS; media is not shared to other devices until a real backend/cloud storage is connected.
+
+## Gallery + Admin Security Update
+- Gallery is fully integrated into the Admin Dashboard under **Media Gallery**.
+- Admin can upload photos/videos, add external media URLs, edit bilingual titles/captions, and delete media.
+- Gallery data is shared with the public website through the same localStorage CMS key.
+- Added **Admin Security** panel for changing the administrator username/password.
+- Passwords are stored as SHA-256 hashes and are never displayed in plain text.
+- Added authorized **Reset Admin Login** workflow; it requires the current credentials before reset.
+- Login screen no longer displays a demo password.
