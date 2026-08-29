@@ -1,0 +1,24 @@
+{
+  "name": "purbanch-central-academy",
+  "version": "1.0.0",
+  "description": "Purbanch Central Academy - Official school website with bilingual support (English/Nepali)",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prashuaff-gif/PCA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prashuaff-gif/PCA/issues"
+  },
+  "homepage": "https://github.com/prashuaff-gif/PCA#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
